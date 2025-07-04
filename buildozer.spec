@@ -11,7 +11,7 @@ requirements = python3,kivy,cython,bleak
 orientation = portrait
 fullscreen = 1
 android.permissions = INTERNET,BLUETOOTH,BLUETOOTH_ADMIN,BLUETOOTH_CONNECT,BLUETOOTH_SCAN,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
-android.arch = armeabi-v7a,arm64-v8a,x86,x86_64
+android.archs = armeabi-v7a,arm64-v8a,x86,x86_64
 
 # (Opcjonalnie) Dodaj inne ustawienia, np. ikony, splash, itd.
 # android.icon = assets/images/ico_mini.png

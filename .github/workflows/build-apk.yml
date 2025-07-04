@@ -30,11 +30,10 @@ jobs:
       - name: Build APK with Buildozer (Docker)
         run: |
           pip install buildozer
-          cd src3/app
           buildozer android debug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: fitogar-debug-apk
-          path: src3/app/bin/*.apk
+          path: bin/*.apk

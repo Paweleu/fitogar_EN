@@ -2,7 +2,7 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
@@ -27,14 +27,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential git zip unzip openjdk-17-jdk python3-pip python3-setuptools python3-wheel python3-venv libffi-dev libssl-dev libsqlite3-dev zlib1g-dev
 
-      - name: Buildozer prefetch (first run to download SDK)
+      - name: Buildozer clean (pobranie SDK i narzędzi)
         run: |
           pip install buildozer
           buildozer android clean
-
-      - name: Install Android build-tools (for aidl)
-        run: |
-          yes | ${HOME}/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=${HOME}/.buildozer/android/platform/android-sdk "build-tools;30.0.3"
 
       - name: Build APK with Buildozer
         run: |

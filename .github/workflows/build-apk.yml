@@ -55,3 +55,31 @@ jobs:
           name: fitogar-debug-apk
           path: /bin/*.apk
 
+      - name: Build AAB with Buildozer (Google Play)
+        run: |
+          pip install buildozer
+          echo "Zawartość katalogu przed buildem:"
+          ls -l
+          echo "Zawartość buildozer.spec:"
+          cat buildozer.spec || echo "Brak pliku buildozer.spec!"
+          buildozer android clean || true
+          n=0
+          until [ "$n" -ge 5 ]
+          do
+            echo "Próba $((n+1)) z 5 (AAB)"
+            buildozer android aab --verbose && break
+            n=$((n+1))
+            echo "Build failed, retrying in 30 seconds... ($n/5)"
+            echo "Zawartość .buildozer/android/ po nieudanej próbie:"
+            ls -l .buildozer/android/ || true
+            echo "Zawartość .buildozer/android/platform/ po nieudanej próbie:"
+            ls -l .buildozer/android/platform/ || true
+            sleep 30
+          done
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fitogar-release-aab
+          path: bin/*.aab
+

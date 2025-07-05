@@ -41,3 +41,4 @@ jobs:
         with:
           name: fitogar-debug-apk
           path: bin/*.apk
+          

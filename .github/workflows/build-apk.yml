@@ -27,18 +27,32 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential git zip unzip openjdk-17-jdk python3-pip python3-setuptools python3-wheel python3-venv libffi-dev libssl-dev libsqlite3-dev zlib1g-dev
 
-      - name: Buildozer clean (pobranie SDK i narzędzi)
+      - name: Build APK with Buildozer (Docker)
         run: |
           pip install buildozer
-          buildozer android clean
-
-      - name: Build APK with Buildozer
-        run: |
-          buildozer android debug
+          cd src3/app
+          echo "Zawartość katalogu src3/app przed buildem:"
+          ls -l
+          echo "Zawartość buildozer.spec:"
+          cat buildozer.spec || echo "Brak pliku buildozer.spec!"
+          buildozer android clean || true
+          n=0
+          until [ "$n" -ge 5 ]
+          do
+            echo "Próba $((n+1)) z 5"
+            buildozer android debug --verbose && break
+            n=$((n+1))
+            echo "Build failed, retrying in 30 seconds... ($n/5)"
+            echo "Zawartość .buildozer/android/ po nieudanej próbie:"
+            ls -l .buildozer/android/ || true
+            echo "Zawartość .buildozer/android/platform/ po nieudanej próbie:"
+            ls -l .buildozer/android/platform/ || true
+            sleep 30
+          done
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: fitogar-debug-apk
-          path: bin/*.apk
-          
+          path: /bin/*.apk
+

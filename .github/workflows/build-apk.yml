@@ -30,8 +30,7 @@ jobs:
       - name: Build APK with Buildozer (Docker)
         run: |
           pip install buildozer
-          cd src3/app
-          echo "Zawartość katalogu src3/app przed buildem:"
+          echo "Zawartość katalogu przed buildem:"
           ls -l
           echo "Zawartość buildozer.spec:"
           cat buildozer.spec || echo "Brak pliku buildozer.spec!"
